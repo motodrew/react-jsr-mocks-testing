@@ -1,39 +1,24 @@
 import React from 'react';
-import mocks from '../mocks.js';
+import { connect } from 'react-redux';
 
-export default class App extends React.Component {
-	constructor(props) {
-		super(props);
+import Accounts from './Accounts';
 
-		this.state = {
-			accounts: []
-		};
-	}
+import { handleGetAccounts } from '../actions/accounts';
 
+class App extends React.Component {
 	componentDidMount() {
-		mocks({ method: 'getAccounts', args: [] }).then(result => {
-			this.setState({
-				accounts: result
-			});
-		});
+		const { dispatch } = this.props;
+
+		dispatch(handleGetAccounts());
 	}
 
 	render() {
 		return (
 			<div>
-				<table>
-					<tbody>
-						{this.state.accounts.map(account => {
-							return (
-								<tr key={account.Id}>
-									<td>TEST2 {account.Id}</td>
-									<td>{account.Name}</td>
-								</tr>
-							);
-						})}
-					</tbody>
-				</table>
+				<Accounts />
 			</div>
 		);
 	}
 }
+
+export default connect(state => ({}))(App);
