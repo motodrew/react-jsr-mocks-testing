@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { handleAddAccount } from '../actions/accounts';
+import {
+	handleAddAccount,
+	handleDeleteAccount,
+	handleUpdateAccount
+} from '../actions/accounts';
 
 class Accounts extends React.Component {
 	insertAccount = event => {
@@ -16,9 +20,25 @@ class Accounts extends React.Component {
 		);
 	};
 
-	updateAccount = () => {};
+	handleChange = e => {
+		let Id = e.target.id;
+		let Name = e.target.value;
 
-	deleteAccount = () => {};
+		let account = {
+			Id,
+			Name
+		};
+
+		this.updateAccount(account);
+	};
+
+	updateAccount = account => {
+		this.props.dispatch(handleUpdateAccount(account));
+	};
+
+	deleteAccount = account => {
+		this.props.dispatch(handleDeleteAccount(account));
+	};
 
 	render() {
 		const { accounts } = this.props;
@@ -41,7 +61,21 @@ class Accounts extends React.Component {
 							return (
 								<tr key={account.Id}>
 									<td>{account.Id}</td>
-									<td>{account.Name}</td>
+									<td>
+										<input
+											type="text"
+											defaultValue={account.Name}
+											id={account.Id}
+											onBlur={this.handleChange}
+										/>
+									</td>
+									<td>
+										<button
+											type="button"
+											onClick={() => this.deleteAccount(account)}>
+											X
+										</button>
+									</td>
 								</tr>
 							);
 						})}

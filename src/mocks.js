@@ -39,7 +39,7 @@ export default vfr(
 
 function createNewAccount(id) {
 	return {
-		Id: id,
+		Id: id.toString(),
 		Name: faker.company.companyName()
 	};
 }

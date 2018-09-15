@@ -12,11 +12,12 @@ export default function accounts(state = [], action) {
 		case ADD_ACCOUNT:
 			return state.concat(action.account);
 		case UPDATE_ACCOUNT:
-			return state.map(account => {
-				account.Id !== action.account.Id
-					? account
-					: Object.assign({}, action.account);
-			});
+			return state.map(
+				account =>
+					account.Id !== action.account.Id
+						? account
+						: Object.assign({}, action.account)
+			);
 		case DELETE_ACCOUNT:
 			return state.filter(account => account.Id !== action.accountId);
 		default:

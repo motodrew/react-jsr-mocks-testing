@@ -43,9 +43,8 @@ export function handleGetAccounts() {
 
 export function handleAddAccount(account, callback) {
 	return dispatch => {
-		return mocks({ method: 'insertAccount', args: [account, 'test'] })
+		return mocks({ method: 'insertAccount', args: [account] })
 			.then(result => {
-				console.log(result);
 				dispatch(addAccount(result));
 				callback();
 			})
@@ -63,13 +62,12 @@ export function handleUpdateAccount(account) {
 	};
 }
 
-export function handleDeleteAccount(accountId) {
+export function handleDeleteAccount(account) {
 	return dispatch => {
-		return mocks({ method: 'deleteAccount', args: [accountId] })
-			.then(account => {
-				dispatch(deleteAccount(accountId));
-				callback();
-			})
-			.catch(() => alert('There was an error deleting your record'));
+		dispatch(deleteAccount(account.Id));
+		return mocks({ method: 'deleteAccount', args: [account.Id] }).catch(() => {
+			dispatch(addAccount(account));
+			alert('There was an error deleting your record');
+		});
 	};
 }
